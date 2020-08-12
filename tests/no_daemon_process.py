@@ -12,7 +12,11 @@ def get_temperature(temp_file_path):
         return -1
 
 def get_pid(name):
-    return [int(p) for p in check_output(["pidof",name]).split()]
+    try:
+        return [int(p) for p in check_output(["pidof",name]).split()]
+    # throws an exception is there no process with that name
+    except:
+        return []
 
 def temperature_check(min_temp, max_temp, temp_path):
     # get temperature
