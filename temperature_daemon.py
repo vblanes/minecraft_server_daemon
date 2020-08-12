@@ -32,13 +32,13 @@ def temperature_check(min_temp, max_temp, temp_path):
         Popen(['java', '-Xmx2048M','-jar', 'minecraft_server.1.15.2.jar', 'nogui'], 
             stdin=PIPE, stdout=PIPE, cwd='/opt/minecraft/')
 
-def Main(min_temp, max_temp, temp_path):
+def Main(min_temp, max_temp, temp_path, sleep_time):
     with daemon.DaemonContext():
         # call cmain functionality
         temperature_check(min_temp=min_temp,max_temp=max_temp, temp_path=temp_path)
         # wait time to check again
         # can be improved by chaching time using return values
-        time.sleep(30)
+        time.sleep(sleep_time)
 
 if __name__ == '__main__':
     # use argparse to make it handsome and avoid environ vars
@@ -62,9 +62,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     min_ = float(args.min)
     max_ = float(args.max)
-    sleep = int(args.sleep)
+    sleep_time = int(args.sleep)
     temp_path_ = args.temp
-    Main(min_, max_, temp_path_)
+    Main(min_, max_, temp_path_, sleep_time)
 
     
 
