@@ -44,17 +44,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Daemon for temperature safety\
         running minecraft server on raspberry pi 4 / ubuntu arm")
     
-    parser.add_argument('-min', '--minimum-temperature',
+    parser.add_argument('--min', '-minimum-temperature',
         help='Minimum temperature. Run the server if actual temps is lower than this')
     
-    parser.add_argument('-max', '--maximum-temperature', 
+    parser.add_argument('--max', '-maximum-temperature', 
         help='Maximum temperature. Close the server at this this temperature')
     
-    parser.add_argument('-run', '--run-server-command',
+    parser.add_argument('--run', '-run-server-command',
         default='java -Xmx768M -Xms512M -jar /opt/minecraft/minecraft_server.1.15.2.jar nogui',
         help='Command to run the server. Beware of the paths!')
 
-    parser.add_argument('-temp', '--temperature-file-path',
+    parser.add_argument('--temp', '-temperature-file-path',
         default='/sys/class/thermal/thermal_zone0/temp',
         help='Path to the file where the current temp is')
     
