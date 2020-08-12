@@ -13,8 +13,7 @@ def get_temperature(temp_file_path):
         return -1
 
 def get_pid(name):
-    # https://stackoverflow.com/questions/26688936/how-to-get-pid-by-process-name
-    return map(int, check_output(["pidof",name]).split())
+    return [int(p) for p in check_output(["pidof",name]).split()]
 
 def temperature_check(min_temp, max_temp, run_server_command, temp_path):
     # get temperature
@@ -24,7 +23,7 @@ def temperature_check(min_temp, max_temp, run_server_command, temp_path):
     # if temperature is above threshold try to kill minecraft
     if temperature >= max_temp and pids:
         for pid in pids:
-            kill(pid, signal.SIGSTOP)
+            kill(pid, signal.SIGKILL)
     # if temperature is below other treshold
     # run minecraft server if nots running
     elif temperature <= min_temp and not pids:
