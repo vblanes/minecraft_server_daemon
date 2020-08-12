@@ -15,7 +15,7 @@ def get_temperature(temp_file_path):
 def get_pid(name):
     return [int(p) for p in check_output(["pidof",name]).split()]
 
-def temperature_check(min_temp, max_temp, run_server_command, temp_path):
+def temperature_check(min_temp, max_temp, temp_path):
     # get temperature
     temperature = get_temperature(temp_path)
     # check if minecraft is running
@@ -27,13 +27,15 @@ def temperature_check(min_temp, max_temp, run_server_command, temp_path):
     # if temperature is below other treshold
     # run minecraft server if nots running
     elif temperature <= min_temp and not pids:
-        Popen(run_server_command, stdin=PIPE, stdout=PIPE)
+        # IMPORTANT: this is my personal conf!!
+        # edit this command to your conf or the use of other program!!
+        Popen(['java', '-Xmx2048M','-jar', 'minecraft_server.1.15.2.jar', 'nogui'], 
+            stdin=PIPE, stdout=PIPE, cwd='/opt/minecraft/')
 
-def Main(min_temp, max_temp, run_com, temp_path):
+def Main(min_temp, max_temp, temp_path):
     with daemon.DaemonContext():
         # call cmain functionality
-        temperature_check(min_temp=min_temp,max_temp=max_temp, 
-                            run_server_command=run_com, temp_path=temp_path)
+        temperature_check(min_temp=min_temp,max_temp=max_temp, temp_path=temp_path)
         # wait time to check again
         # can be improved by chaching time using return values
         time.sleep(30)
@@ -51,10 +53,6 @@ if __name__ == '__main__':
 
     parser.add_argument('--sleep', '-sleep-time-daemon', default=10,
         help='How many seconds the daemon should sleep between checks')
-    
-    parser.add_argument('--run', '-run-server-command',
-        default='java -Xmx768M -Xms512M -jar /opt/minecraft/minecraft_server.1.15.2.jar nogui',
-        help='Command to run the server. Beware of the paths!')
 
     parser.add_argument('--temp', '-temperature-file-path',
         default='/sys/class/thermal/thermal_zone0/temp',
@@ -65,9 +63,8 @@ if __name__ == '__main__':
     min_ = float(args.min)
     max_ = float(args.max)
     sleep = int(args.sleep)
-    run_com_ = args.run
     temp_path_ = args.temp
-    Main(min_, max_, run_com_, temp_path_)
+    Main(min_, max_, temp_path_)
 
     
 
