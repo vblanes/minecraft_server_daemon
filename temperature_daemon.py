@@ -7,7 +7,7 @@ import argparse
 
 def get_temperature(temp_file_path):
     try:
-        with open(temp_file_path 'r') as temp_file:
+        with open(temp_file_path, 'r') as temp_file:
             return float(temp_file.read().strip())/1000
     except IOError:
         return -1
