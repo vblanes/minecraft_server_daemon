@@ -48,6 +48,9 @@ if __name__ == '__main__':
     
     parser.add_argument('--max', '-maximum-temperature', 
         help='Maximum temperature. Close the server at this this temperature')
+
+    parser.add_argument('--sleep', '-sleep-time-daemon', default=10,
+        help='How many seconds the daemon should sleep between checks')
     
     parser.add_argument('--run', '-run-server-command',
         default='java -Xmx768M -Xms512M -jar /opt/minecraft/minecraft_server.1.15.2.jar nogui',
@@ -61,6 +64,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     min_ = float(args.min)
     max_ = float(args.max)
+    sleep = int(args.sleep)
     run_com_ = args.run
     temp_path_ = args.temp
     Main(min_, max_, run_com_, temp_path_)
