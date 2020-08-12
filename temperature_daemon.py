@@ -44,10 +44,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Daemon for temperature safety\
         running minecraft server on raspberry pi 4 / ubuntu arm")
     
-    parser.add_argument('--minimum-temperature', '-min', type=int, action='store_const', 
+    parser.add_argument('--minimum-temperature', '-min', action='store_const', 
         help='Minimum temperature. Run the server if actual temps is lower than this')
     
-    parser.add_argument('--maximum-temperature', '-max', type=int, action='store_const', 
+    parser.add_argument('--maximum-temperature', '-max', action='store_const', 
         help='Maximum temperature. Close the server at this this temperature')
     
     parser.add_argument('--run-server-command', '-run', action='store_const',
@@ -60,8 +60,8 @@ if __name__ == '__main__':
     
 
     args = parser.parse_args()
-    min_ = args.min
-    max_ = args.max
+    min_ = float(args.min)
+    max_ = float(args.max)
     run_com_ = args.run
     temp_path_ = args.temp
     Main(min_, max_, run_com_, temp_path_)
